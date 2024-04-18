@@ -52,12 +52,7 @@ function App() {
         </div>
         <div className="col-12 col-sm-8 px-5 row posts align-items-start">
           {posts.map((post, i) => (
-            <Post
-              key={i}
-              post={post}
-              like={like}
-              eliminarPost={eliminarPost}
-            />
+            <Post key={i} post={post} like={like} eliminarPost={eliminarPost} />
           ))}
         </div>
       </div>
