@@ -10,6 +10,7 @@ function App() {
   const [imgSrc, setImgSRC] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [posts, setPosts] = useState([]);
+  const [error, setError] = useState("");
 
   const getPosts = async () => {
     const { data: posts } = await axios.get(urlBaseServer + "/posts");
@@ -18,8 +19,16 @@ function App() {
 
   const agregarPost = async () => {
     const post = { titulo, url: imgSrc, descripcion };
-    await axios.post(urlBaseServer + "/posts", post);
-    getPosts();
+    if (titulo === "" || imgSrc === "" || descripcion === "") {
+      setError("No puedes postear si uno de los campos está vacío.");
+    } else {
+      await axios.post(urlBaseServer + "/posts", post);
+      setTitulo("");
+      setImgSRC("");
+      setDescripcion("");
+      setError("");
+      getPosts();
+    }
   };
 
   // este método se utilizará en el siguiente desafío
@@ -44,6 +53,10 @@ function App() {
       <div className="row m-auto px-5">
         <div className="col-12 col-sm-4">
           <Form
+            titulo={titulo}
+            imgSrc={imgSrc}
+            descripcion={descripcion}
+            error={error}
             setTitulo={setTitulo}
             setImgSRC={setImgSRC}
             setDescripcion={setDescripcion}

@@ -1,10 +1,20 @@
-function Form({ setTitulo, setImgSRC, setDescripcion, agregarPost }) {
+function Form({
+  titulo,
+  setTitulo,
+  imgSrc,
+  setImgSRC,
+  descripcion,
+  setDescripcion,
+  agregarPost,
+  error,
+}) {
   return (
     <div className="form">
       <div className="mb-2">
         <h6>Agregar post</h6>
         <label>Título</label>
         <input
+          value={titulo}
           onChange={(event) => setTitulo(event.target.value)}
           className="form-control"
         />
@@ -12,6 +22,7 @@ function Form({ setTitulo, setImgSRC, setDescripcion, agregarPost }) {
       <div className="mb-2">
         <label>URL de la imagen</label>
         <input
+          value={imgSrc}
           onChange={(event) => setImgSRC(event.target.value)}
           className="form-control"
         />
@@ -19,6 +30,7 @@ function Form({ setTitulo, setImgSRC, setDescripcion, agregarPost }) {
       <div className="mb-3">
         <label>Descripción</label> <br />
         <textarea
+          value={descripcion}
           onChange={(event) => setDescripcion(event.target.value)}
           className="form-control"
         ></textarea>
@@ -28,6 +40,13 @@ function Form({ setTitulo, setImgSRC, setDescripcion, agregarPost }) {
           Agregar
         </button>
       </div>
+      {error ? (
+        <p style={{ marginTop: "25px", color: "red", fontWeight: "bold" }}>
+          {error}
+        </p>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
