@@ -11,6 +11,7 @@ function App() {
   const [descripcion, setDescripcion] = useState("");
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
+  const [exito, setExito] = useState("");
 
   const getPosts = async () => {
     const { data: posts } = await axios.get(urlBaseServer + "/posts");
@@ -23,6 +24,10 @@ function App() {
       setError("No puedes postear si uno de los campos está vacío.");
     } else {
       await axios.post(urlBaseServer + "/posts", post);
+      setExito("¡Post agregado!");
+      setTimeout(() => {
+        setExito("");
+      }, 3000);
       setTitulo("");
       setImgSRC("");
       setDescripcion("");
@@ -57,6 +62,7 @@ function App() {
             imgSrc={imgSrc}
             descripcion={descripcion}
             error={error}
+            exito={exito}
             setTitulo={setTitulo}
             setImgSRC={setImgSRC}
             setDescripcion={setDescripcion}

@@ -7,6 +7,7 @@ function Form({
   setDescripcion,
   agregarPost,
   error,
+  exito,
 }) {
   return (
     <div className="form">
@@ -45,7 +46,9 @@ function Form({
           {error}
         </p>
       ) : (
-        ""
+        <p style={{ marginTop: "25px", color: "#729E2E", fontWeight: "bold" }}>
+          {exito}
+        </p>
       )}
     </div>
   );
