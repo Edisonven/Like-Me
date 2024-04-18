@@ -31,6 +31,10 @@ app.get("/posts", async (req, res) => {
 app.post("/posts", async (req, res) => {
   try {
     const { titulo, url, descripcion } = req.body;
+    if (!titulo || !url || !descripcion) {
+      console.log("No pueden haber campos vacíos");
+      return;
+    }
     const id = Math.floor(Math.random() * 9999);
     const query =
       "INSERT INTO posts (id, titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4, $5);";
