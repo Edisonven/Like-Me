@@ -15,9 +15,16 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/posts", async (req, res) => {
-  const query = "SELECT * FROM posts;";
-  const { rows } = pool.query(query);
-  res.json(rows);
+  try {
+    const query = "SELECT * FROM posts;";
+    const { rows } = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.log("ha ocurrido un error", error);
+    res
+      .status(500)
+      .json({ error: "Ha ocurrido un error al procesar tu solicitud" });
+  }
 });
 
 app.listen(3000, () => {
