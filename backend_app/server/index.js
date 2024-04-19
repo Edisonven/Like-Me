@@ -1,11 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
+require("dotenv").config({ path: "./.env" });
+
+// Variables de entorno
+const password = process.env.PASSWORD;
+const user = process.env.USER;
 
 const pool = new Pool({
   host: "localhost",
-  user: "postgres",
-  password: "admin123",
+  user: user,
+  password: password,
   database: "likeme",
   allowExitOnIdle: true,
 });
