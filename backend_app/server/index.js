@@ -6,12 +6,14 @@ require("dotenv").config({ path: "./.env" });
 // Variables de entorno
 const password = process.env.PASSWORD;
 const user = process.env.USER;
+const db = process.env.DB;
+const host = process.env.HOST;
 
 const pool = new Pool({
-  host: "localhost",
+  host: host,
   user: user,
   password: password,
-  database: "likeme",
+  database: db,
   allowExitOnIdle: true,
 });
 
