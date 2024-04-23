@@ -54,6 +54,21 @@ app.post("/posts", async (req, res) => {
   }
 });
 
+
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = "DELETE FROM posts WHERE id = $1";
+    const values = [id];
+    const { rows } = await pool.query(query, values);
+    res.json("post eliminado con éxito");
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: "Ha ocurrido un error al procesar tu solicitud" });
+  }
+});
+
 app.listen(3000, () => {
   console.log("puerto en funcionamiento");
 });

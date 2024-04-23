@@ -1,2 +1,5 @@
 #archivo .env
 *.env
+
+#modulos
+node_modules
