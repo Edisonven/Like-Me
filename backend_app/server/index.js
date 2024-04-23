@@ -49,7 +49,6 @@ app.post("/posts", async (req, res) => {
     const values = [id, titulo, url, descripcion, 0];
     const { rows } = await pool.query(query, values);
     res.json("post agregado con éxito");
-    return rows;
   } catch (error) {
     console.log("ha ocurrido un error al postear");
     res.status(400).json({ message: "error al procesar la operación " });
@@ -67,7 +66,6 @@ app.put("/posts/like/:id", async (req, res) => {
     const values = [updateLikes, id];
     const { rows } = await pool.query(query, values);
     res.json({ likes: updateLikes });
-    return rows;
   } catch (error) {
     console.log("ha ocurrido un error", error);
     res
@@ -83,7 +81,6 @@ app.delete("/posts/:id", async (req, res) => {
     const values = [id];
     const { rows } = await pool.query(query, values);
     res.json("post eliminado con éxito");
-    return rows;
   } catch (error) {
     res
       .status(400)
