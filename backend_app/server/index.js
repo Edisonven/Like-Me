@@ -27,6 +27,7 @@ app.get("/posts", async (req, res) => {
     const { rows } = await pool.query(query);
     res.json(rows);
     console.log("mostrando todos los posts", rows);
+    return rows;
   } catch (error) {
     console.log("ha ocurrido un error", error);
     res
@@ -48,12 +49,32 @@ app.post("/posts", async (req, res) => {
     const values = [id, titulo, url, descripcion, 0];
     const { rows } = await pool.query(query, values);
     res.json("post agregado con éxito");
+    return rows;
   } catch (error) {
     console.log("ha ocurrido un error al postear");
     res.status(400).json({ message: "error al procesar la operación " });
   }
 });
 
+app.put("/posts/like/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const likes = "SELECT likes FROM posts WHERE id = $1";
+    const result = await pool.query(likes, [id]);
+    const currentLike = result.rows[0].likes;
+    const updateLikes = currentLike + 1;
+    const query = "UPDATE posts SET likes = $1 WHERE id = $2";
+    const values = [updateLikes, id];
+    const { rows } = await pool.query(query, values);
+    res.json({ likes: updateLikes });
+    return rows;
+  } catch (error) {
+    console.log("ha ocurrido un error", error);
+    res
+      .status(400)
+      .json({ error: "Ha ocurrido un error al procesar tu solicitud" });
+  }
+});
 
 app.delete("/posts/:id", async (req, res) => {
   try {
@@ -62,6 +83,7 @@ app.delete("/posts/:id", async (req, res) => {
     const values = [id];
     const { rows } = await pool.query(query, values);
     res.json("post eliminado con éxito");
+    return rows;
   } catch (error) {
     res
       .status(400)
