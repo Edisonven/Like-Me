@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "../database/connection.js";
-import { todoModel } from "../models/model.js";
+import { postModel } from "../models/model.js";
 
 const app = express();
 app.use(cors());
@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.get("/posts", async (req, res) => {
   try {
-    const posts = await todoModel.findAll();
+    const posts = await postModel.findAll();
     res.json(posts);
     console.log("mostrando todos los posts");
   } catch (error) {
@@ -27,7 +27,7 @@ app.post("/posts", async (req, res) => {
       console.log("No pueden haber campos vacíos");
       return;
     }
-    const posts = await todoModel.create(titulo, url, descripcion);
+    const posts = await postModel.create(titulo, url, descripcion);
     res.json(posts);
   } catch (error) {
     console.log("ha ocurrido un error al postear");
@@ -38,14 +38,8 @@ app.post("/posts", async (req, res) => {
 app.put("/posts/like/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const likes = "SELECT likes FROM posts WHERE id = $1";
-    const result = await pool.query(likes, [id]);
-    const currentLike = result.rows[0].likes;
-    const updateLikes = currentLike + 1;
-    const query = "UPDATE posts SET likes = $1 WHERE id = $2";
-    const values = [updateLikes, id];
-    const { rows } = await pool.query(query, values);
-    res.json({ likes: updateLikes });
+    const posts = postModel.update(id);
+    res.json(posts);
   } catch (error) {
     console.log("ha ocurrido un error", error);
     res
