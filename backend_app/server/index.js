@@ -27,12 +27,8 @@ app.post("/posts", async (req, res) => {
       console.log("No pueden haber campos vacíos");
       return;
     }
-    const id = Math.floor(Math.random() * 9999);
-    const query =
-      "INSERT INTO posts (id, titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4, $5);";
-    const values = [id, titulo, url, descripcion, 0];
-    const { rows } = await pool.query(query, values);
-    res.json("post agregado con éxito");
+    const posts = await todoModel.create(titulo, url, descripcion);
+    res.json(posts);
   } catch (error) {
     console.log("ha ocurrido un error al postear");
     res.status(400).json({ message: "error al procesar la operación " });
