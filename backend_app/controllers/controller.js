@@ -28,7 +28,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const posts = postModel.update(id);
+    const posts = await postModel.update(id);
     res.json(posts);
   } catch (error) {
     console.log(error);
@@ -39,7 +39,7 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    const posts = postModel.remove(id);
+    const posts = await postModel.remove(id);
     res.json(posts);
   } catch (error) {
     console.log(error);

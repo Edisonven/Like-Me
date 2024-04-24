@@ -22,6 +22,9 @@ function App() {
     const post = { titulo, url: imgSrc, descripcion };
     if (titulo === "" || imgSrc === "" || descripcion === "") {
       setError("No puedes postear si uno de los campos está vacío.");
+      setTimeout(() => {
+        setError("");
+      }, 4000);
     } else {
       await axios.post(urlBaseServer + "/posts", post);
       setExito("¡Post agregado!");
