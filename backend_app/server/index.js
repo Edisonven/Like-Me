@@ -51,10 +51,8 @@ app.put("/posts/like/:id", async (req, res) => {
 app.delete("/posts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const query = "DELETE FROM posts WHERE id = $1";
-    const values = [id];
-    const { rows } = await pool.query(query, values);
-    res.json("post eliminado con éxito");
+    const posts = postModel.remove(id);
+    res.json(posts);
   } catch (error) {
     res
       .status(400)

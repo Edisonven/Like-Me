@@ -26,4 +26,11 @@ const update = async (id) => {
   return rows;
 };
 
-export const postModel = { findAll, create, update };
+const remove = async (id) => {
+  const query = "DELETE FROM posts WHERE id = $1";
+  const values = [id];
+  const { rows } = await pool.query(query, values);
+  return rows;
+};
+
+export const postModel = { findAll, create, update, remove };
