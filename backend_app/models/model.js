@@ -20,7 +20,7 @@ const update = async (id) => {
   const result = await pool.query(likesQuery, [id]);
   const likesValue = result.rows[0].likes;
   const currentLikesValue = likesValue + 1;
-  const query = "UPDATE posts SET likes = $1 WHERE id = $2";
+  const query = "UPDATE posts SET likes = $1 WHERE id = $2 RETURNING *";
   const values = [currentLikesValue, id];
   const { rows } = await pool.query(query, values);
   return rows;
