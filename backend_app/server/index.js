@@ -1,21 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const { Pool } = require("pg");
-require("dotenv").config({ path: "./.env" });
-
-// Variables de entorno
-const password = process.env.PASSWORD;
-const user = process.env.USER;
-const db = process.env.DB;
-const host = process.env.HOST;
-
-const pool = new Pool({
-  host: host,
-  user: user,
-  password: password,
-  database: db,
-  allowExitOnIdle: true,
-});
+import express from "express";
+import cors from "cors";
+import { pool } from "../database/connection.js";
+import { todoModel } from "../models/model.js";
 
 const app = express();
 app.use(cors());
@@ -23,11 +9,9 @@ app.use(express.json());
 
 app.get("/posts", async (req, res) => {
   try {
-    const query = "SELECT * FROM posts;";
-    const { rows } = await pool.query(query);
-    res.json(rows);
-    console.log("mostrando todos los posts", rows);
-    return rows;
+    const posts = await todoModel.findAll();
+    res.json(posts);
+    console.log("mostrando todos los posts");
   } catch (error) {
     console.log("ha ocurrido un error", error);
     res
@@ -88,6 +72,7 @@ app.delete("/posts/:id", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("puerto en funcionamiento");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port http://localhost:${PORT}`);
 });
