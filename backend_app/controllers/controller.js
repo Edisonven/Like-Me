@@ -18,7 +18,9 @@ const create = async (req, res) => {
       return;
     }
     const posts = await postModel.create(titulo, url, descripcion);
-    res.status(201).json({ message: "El recurso se ha creado correctamente" });
+    return res
+      .status(201)
+      .json({ message: "El recurso se ha creado correctamente" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -29,7 +31,7 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const posts = await postModel.update(id);
-    res.json(posts);
+    return res.json(posts);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -40,7 +42,7 @@ const remove = async (req, res) => {
   try {
     const { id } = req.params;
     const posts = await postModel.remove(id);
-    res
+    return res
       .status(200)
       .json({ message: "El recurso se ha eliminado correctamente" });
   } catch (error) {
