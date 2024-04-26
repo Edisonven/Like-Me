@@ -17,6 +17,10 @@ const create = async (req, res) => {
       console.log("No pueden haber campos vacíos");
       return;
     }
+    const { id } = req.params;
+    if (!id || isNaN(id)) {
+      res.status(400).json({ message: "ID inválido" });
+    }
     const posts = await postModel.create(titulo, url, descripcion);
     return res
       .status(201)
@@ -30,6 +34,9 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!id || isNaN(id)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
     const posts = await postModel.update(id);
     return res.json(posts);
   } catch (error) {
@@ -41,6 +48,9 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!id || isNaN(id)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
     const posts = await postModel.remove(id);
     return res
       .status(200)
